@@ -1,0 +1,8 @@
+.pio
+.clang_complete
+.gcc-flags.json
+.ccls
+src/.ccls-cache
+CMakeFiles
+clockclock
+asssets
