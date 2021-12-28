@@ -7,7 +7,7 @@ void aniSquare(ClockMatrix *clocks) {
     for (uint8_t i = 0; i < clocks->getRows(); i++) {
       if (j & 1) {
         if (i & 1) {
-          clocks->setTarget(i, j, DEG0,-DEG90);
+          clocks->setTarget(i, j, DEG0, -DEG90);
         } else {
           clocks->setTarget(i, j, DEG0, DEG90);
         }
@@ -16,7 +16,7 @@ void aniSquare(ClockMatrix *clocks) {
           clocks->setTarget(i, j, -DEG180, -DEG90);
 
         } else {
-          clocks->setTarget(i, j ,-DEG180, DEG90);
+          clocks->setTarget(i, j, -DEG180, DEG90);
         }
       }
     }
@@ -26,16 +26,16 @@ void aniSquare(ClockMatrix *clocks) {
     for (uint8_t i = 0; i < clocks->getRows(); i++) {
       if (j & 1) {
         if (i & 1) {
-          clocks->setTarget(i, j, DEG0+Turns,-DEG90+Turns);
+          clocks->setTarget(i, j, DEG0 + Turns, -DEG90 + Turns);
         } else {
-          clocks->setTarget(i, j, DEG0-Turns, DEG90-Turns);
+          clocks->setTarget(i, j, DEG0 - Turns, DEG90 - Turns);
         }
       } else {
         if (i & 1) {
-          clocks->setTarget(i, j, -DEG180-Turns, -DEG90-Turns);
+          clocks->setTarget(i, j, -DEG180 - Turns, -DEG90 - Turns);
 
         } else {
-          clocks->setTarget(i, j ,-DEG180+Turns, DEG90+Turns);
+          clocks->setTarget(i, j, -DEG180 + Turns, DEG90 + Turns);
         }
       }
     }
@@ -85,4 +85,20 @@ void aniDiamond(ClockMatrix *clocks) {
     }
   }
   clocks->runToDestination();
+}
+
+void aniWave(ClockMatrix *clock) {
+  uint32_t turns = DEG360 * 4;
+  uint32_t time = micros();
+  clock->setAngleAll(DEG45, DEG225);
+  clock->setSpeedAll(10, 10);
+  uint32_t delay = 0;
+  for (uint32_t i = 0; i < clock->getRows(); i++) {
+    for (uint32_t j = 0; j < clock->getCols(); j++) {
+      clock->setTargetDelay(time, i, j, DEG45 + turns, DEG225 + turns, delay,
+                            delay);
+    }
+      delay += 70;
+  }
+  clock->runToDestination();
 }

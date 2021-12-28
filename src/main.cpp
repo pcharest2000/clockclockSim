@@ -19,13 +19,18 @@ ClockMatrix clocks;
 myTime myTi;
 
 int updateT(void *data) {
-  while (1) {
     uint32_t time = micros();
-    clocks.setTargetDelay(time, 0, 0, 200, -200, 3000, 1000);
-    clocks.runToDestination();
-    time = micros();
-    clocks.setTargetDelay(time,0, 0, 0, 0, 1000, 3000);
-    clocks.runToDestination();
+  while (1) {
+    aniWave(&clocks);
+    // clocks.setAngleAll(DEG45, DEG225);
+    // clocks.setTargetDelay(time, 0, 0, 200, -200, 3000, 1000);
+    // clocks.runToDestination();
+    // time = micros();
+    // clocks.setTargetDelay(time,0, 0, 0, 0, 1000, 3000);
+    // clocks.runToDestination();
+
+
+
     // uint8_t state = myTi.getTime();
     // clocks.printClock(myTi.hourTenth, myTi.hourDigit, myTi.minTenth,
     //                   myTi.minDigit);

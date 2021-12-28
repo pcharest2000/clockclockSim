@@ -5,5 +5,5 @@
 
 void aniSquare(ClockMatrix *clock);
 void aniDiamond(ClockMatrix *clock);
-
+void aniWave(ClockMatrix *clock);
 #endif //ANIMATIONS_S
