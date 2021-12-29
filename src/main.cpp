@@ -19,26 +19,25 @@ ClockMatrix clocks;
 myTime myTi;
 
 int updateT(void *data) {
-    uint32_t time = micros();
+  uint32_t time = micros();
   while (1) {
-    //clocks.printClockNormalized(&myTi, 30);
-    clocks.setSpeedAll(5, 10);
-    clocks.setTargetBox(1, 1, 4, 4, 230, -430);
-    clocks.normalizeSpeedBox(1, 1, 2, 2, 20);
+    clocks.setSpeedAll(20, 20);
+    clocks.setTargetBox(0, 0, 8, 8, 100, 200);
+    clocks.normalizeSpeedBox(1, 1, 4, 2, 10);
     clocks.runToDestination();
-    clocks.setSpeedAll(10, 5);
-    clocks.setTargetBox(1, 1, 4, 4, -230, 430);
+    clocks.setSpeedAll(20, 20);
+    clocks.printClockNormalized(&myTi, 10);
     clocks.runToDestination();
-    //aniSquare(&clocks);
-    //aniWave(&clocks,&myTi);
+    // clocks.runToDestination();
+    // clocks.normalizeSpeed(20);
+    // aniSquare(&clocks);
+    // aniWave(&clocks,&myTi);
     // clocks.setAngleAll(DEG45, DEG225);
     // clocks.setTargetDelay(time, 0, 0, 200, -200, 3000, 1000);
     // clocks.runToDestination();
     // time = micros();
     // clocks.setTargetDelay(time,0, 0, 0, 0, 1000, 3000);
     // clocks.runToDestination();
-
-
 
     // uint8_t state = myTi.getTime();
     // clocks.printClock(myTi.hourTenth, myTi.hourDigit, myTi.minTenth,
@@ -49,7 +48,7 @@ int updateT(void *data) {
 }
 void setup() {
   clocks.begin(&cv);
-    clocks.setSpeedAll(10, 10);
+  clocks.setSpeedAll(10, 10);
   updateThread = SDL_CreateThread(updateT, "updateT", (void *)NULL);
 }
 int frames = 0;

@@ -42,8 +42,8 @@ public:
   void run(uint32_t micro);
   bool clockDone();
   void printInfo();
-  int32_t getHourDistance();
-  int32_t getMinDistance();
+  uint32_t getHourDistance();
+  uint32_t getMinDistance();
   void normalizeHourAngle();
   void normalizeMinAngle();
   void normalizeAngles();

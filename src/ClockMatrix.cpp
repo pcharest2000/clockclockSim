@@ -147,8 +147,8 @@ void ClockMatrix::printDigit(uint32_t x, uint32_t y, uint8_t dig) {
 }
 
 void ClockMatrix::printClock(myTime *timeObj, float rpm) {
-  uint32_t state = timeObj->getTime();
-  if (state == MIN_DIG) {
+  bool changed = timeObj->getTime();
+  if (changed) {
     printDigit(1, 2, timeObj->hourTenth);
     printDigit(4, 2, timeObj->hourDigit);
     printDigit(8, 2, timeObj->minTenth);
@@ -157,15 +157,13 @@ void ClockMatrix::printClock(myTime *timeObj, float rpm) {
 }
 void ClockMatrix::printClockNormalized(myTime *timeObj, float rpm) {
   bool changed = timeObj->getTime();
-  if (changed) {
+  if (true) {
     printDigit(1, 2, timeObj->hourTenth);
     printDigit(4, 2, timeObj->hourDigit);
     printDigit(8, 2, timeObj->minTenth);
     printDigit(11, 2, timeObj->minDigit);
-    normalizeSpeedBox(1, 2, 6, 3, rpm);
-    normalizeSpeedBox(4, 2, 6, 3, rpm);
-    normalizeSpeedBox(8, 2, 6, 3, rpm);
-    normalizeSpeedBox(11, 2, 6, 3, rpm);
+    normalizeSpeedBox(2, 1, 6, 6, rpm);
+    normalizeSpeedBox(2, 8, 6, 6, rpm);
     printf("Changed");
     fflush(stdout);
   }
@@ -176,8 +174,8 @@ void ClockMatrix::normalizeSpeed(float rpm) {
   uint32_t longJ = 0;
 
   // first find the longest distance travaelle
-  for (int i = 0; i < _rows; i++) {
-    for (int j = 0; j < _cols; j++) {
+  for (uint32_t i = 0; i < _rows; i++) {
+    for (uint32_t j = 0; j < _cols; j++) {
       if (_matrix[i][j].getHourDistance() > longest) {
         longest = _matrix[i][j].getHourDistance();
         longI = i;
@@ -196,8 +194,8 @@ void ClockMatrix::normalizeSpeed(float rpm) {
   }
   float hourspeed, minspeed;
   float longestf = longest;
-  for (int i = 0; i < _rows; i++) {
-    for (int j = 0; j < _cols; j++) {
+  for (uint32_t i = 0; i < _rows; i++) {
+    for (uint32_t j = 0; j < _cols; j++) {
       hourspeed = ((float)_matrix[i][j].getHourDistance() / longestf) * rpm;
       minspeed = ((float)_matrix[i][j].getMinDistance() / longestf) * rpm;
       _matrix[i][j].setSpeed(hourspeed, minspeed);
@@ -207,13 +205,13 @@ void ClockMatrix::normalizeSpeed(float rpm) {
 
 void ClockMatrix::normalizeSpeedBox(uint32_t i, uint32_t j, uint8_t heigth,
                                     uint8_t width, float rpm) {
-  int32_t longest = 0;
+  uint32_t longest = 0;
   uint32_t longI = i;
   uint32_t longJ = j;
 
   // first find the longest distance travaelle
-  for (int i1 = i; i1 < i + heigth; i1++) {
-    for (int j1 = j; j1 < j + width; j1++) {
+  for (uint32_t i1 = i; i1 < i + heigth; i1++) {
+    for (uint32_t j1 = j; j1 < j + width; j1++) {
       if (j1 >= _cols || i1 >= _rows)
         continue;
       if (_matrix[i1][j1].getHourDistance() > longest) {
@@ -234,8 +232,8 @@ void ClockMatrix::normalizeSpeedBox(uint32_t i, uint32_t j, uint8_t heigth,
   }
   float hourspeed, minspeed;
   float longestf = longest;
-  for (int i1 = i; i1 < i + heigth; i1++) {
-    for (int j1 = j; j1 < j + width; j1++) {
+  for (uint32_t i1 = i; i1 < i + heigth; i1++) {
+    for (uint32_t j1 = j; j1 < j + width; j1++) {
       if (j1 >= _cols || i1 >= _rows)
         continue;
       hourspeed = ((float)_matrix[i1][j1].getHourDistance() / longestf) * rpm;
@@ -246,8 +244,8 @@ void ClockMatrix::normalizeSpeedBox(uint32_t i, uint32_t j, uint8_t heigth,
 }
 void ClockMatrix::normalizeAngles() {
 
-  for (int i = 0; i < _rows; i++) {
-    for (int j = 0; j < _cols; j++) {
+  for (uint32_t i = 0; i < _rows; i++) {
+    for (uint32_t j = 0; j < _cols; j++) {
       _matrix[i][j].normalizeAngles();
     }
   }

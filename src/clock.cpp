@@ -115,9 +115,9 @@ void Clock::printInfo() {
   // Serial.print("Dir: ");
   // Serial.println(_minDir);
 }
-int32_t Clock::getMinDistance() { return abs(_minTarget - _minAngle); }
+uint32_t Clock::getMinDistance() { return abs(_minTarget - _minAngle); }
 
-int32_t Clock::getHourDistance() { return abs(_hourTarget - _hourAngle); }
+uint32_t Clock::getHourDistance() { return abs(_hourTarget - _hourAngle); }
 
 void Clock::normalizeHourAngle() {
   _hourAngle = _hourAngle % STEPSPER360;
