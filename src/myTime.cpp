@@ -70,8 +70,8 @@ void myTime::printInfo() {
 #endif
 }
 
-uint32_t myTime::getTime() {
-  uint32_t whatChanged = NOTHING;
+bool myTime::getTime() {
+  bool changed = false;
 
 #ifndef SIM
   getLocalTime(&_currentTimeInfo);
@@ -80,21 +80,18 @@ uint32_t myTime::getTime() {
   _currentTimeInfo = *localtime(&t2);
 #endif
 
-  if (_currentTimeInfo.tm_sec != _lastTimeInfo.tm_sec) {
-    whatChanged = whatChanged | SEC_DIG;
-  } else
-    return whatChanged;
+  // if (_currentTimeInfo.tm_sec != _lastTimeInfo.tm_sec) {
+  //   whatChanged = whatChanged | SEC_DIG;
+  // } else
+  //   return whatChanged;
   if (_currentTimeInfo.tm_min != _lastTimeInfo.tm_min) {
-    whatChanged = whatChanged | MIN_DIG;
+    changed = true;
   }
-  if (_currentTimeInfo.tm_hour != _lastTimeInfo.tm_hour) {
-    whatChanged = whatChanged | HOUR_DIG;
-  }
-  if (whatChanged)
+  if (changed)
     _lastTimeInfo = _currentTimeInfo;
-  if (whatChanged)
+  if (changed)
     updateDigits();
-  return whatChanged;
+  return changed;
 }
 void myTime::updateDigits() {
 

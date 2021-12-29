@@ -26,7 +26,7 @@ public:
   void updateNptTime();
   void printInfo();
   void checkNptUpdatetime();
-  uint32_t getTime();
+  bool getTime();
   void updateDigits();
   uint8_t prevSeconds;
   uint8_t currentSeconds;

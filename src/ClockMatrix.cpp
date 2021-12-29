@@ -91,11 +91,12 @@ void ClockMatrix::setTarget(uint32_t i, uint32_t j, int hourT, int minT) {
     return;
   _matrix[i][j].setTarget(hourT, minT);
 }
-void ClockMatrix::setTargetDelay(uint32_t micro, uint32_t i, uint32_t j, int hourA, int minA, uint32_t hourDmillis, uint32_t minDmillis){
+void ClockMatrix::setTargetDelay(uint32_t micro, uint32_t i, uint32_t j,
+                                 int hourA, int minA, uint32_t hourDmillis,
+                                 uint32_t minDmillis) {
   if (i >= _rows || j >= _cols)
     return;
-  _matrix[i][j].setTargetDelay( micro, hourA, minA, hourDmillis,minDmillis);
-
+  _matrix[i][j].setTargetDelay(micro, hourA, minA, hourDmillis, minDmillis);
 }
 void ClockMatrix::setTargetAll(int hourT, int minT) {
   for (uint32_t i = 0; i < _rows; i++) {
@@ -104,7 +105,15 @@ void ClockMatrix::setTargetAll(int hourT, int minT) {
     }
   }
 }
-
+void ClockMatrix::setTargetBox(uint32_t i, uint32_t j, uint32_t heigth, uint32_t width, int hourA, int minA){
+  for (int i1 = i; i1 < i + heigth; i1++) {
+    for (int j1 = j; j1 < j + width; j1++) {
+      if (j1 >= _cols || i1 >= _rows)
+        continue;
+      _matrix[i1][j1].setTarget(hourA, minA);
+    }
+  }
+}
 void ClockMatrix::setSpeed(uint32_t i, uint32_t j, float hourRPM,
                            float minRPM) {
   if (i >= _rows || j >= _cols)
@@ -136,14 +145,31 @@ void ClockMatrix::printDigit(uint32_t x, uint32_t y, uint8_t dig) {
     }
   }
 }
-void ClockMatrix::printClock(uint8_t hourT, uint8_t hourD, uint8_t minT,
-                             uint8_t minD) {
-  printDigit(1, 2, hourT);
-  printDigit(4, 2, hourD);
-  printDigit(8, 2, minT);
-  printDigit(11, 2, minD);
-}
 
+void ClockMatrix::printClock(myTime *timeObj, float rpm) {
+  uint32_t state = timeObj->getTime();
+  if (state == MIN_DIG) {
+    printDigit(1, 2, timeObj->hourTenth);
+    printDigit(4, 2, timeObj->hourDigit);
+    printDigit(8, 2, timeObj->minTenth);
+    printDigit(11, 2, timeObj->minDigit);
+  }
+}
+void ClockMatrix::printClockNormalized(myTime *timeObj, float rpm) {
+  bool changed = timeObj->getTime();
+  if (changed) {
+    printDigit(1, 2, timeObj->hourTenth);
+    printDigit(4, 2, timeObj->hourDigit);
+    printDigit(8, 2, timeObj->minTenth);
+    printDigit(11, 2, timeObj->minDigit);
+    normalizeSpeedBox(1, 2, 6, 3, rpm);
+    normalizeSpeedBox(4, 2, 6, 3, rpm);
+    normalizeSpeedBox(8, 2, 6, 3, rpm);
+    normalizeSpeedBox(11, 2, 6, 3, rpm);
+    printf("Changed");
+    fflush(stdout);
+  }
+}
 void ClockMatrix::normalizeSpeed(float rpm) {
   int32_t longest = 0;
   uint32_t longI = 0;
