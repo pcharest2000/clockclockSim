@@ -80,17 +80,11 @@ bool myTime::getTime() {
   _currentTimeInfo = *localtime(&t2);
 #endif
 
-  // if (_currentTimeInfo.tm_sec != _lastTimeInfo.tm_sec) {
-  //   whatChanged = whatChanged | SEC_DIG;
-  // } else
-  //   return whatChanged;
   if (_currentTimeInfo.tm_min != _lastTimeInfo.tm_min) {
     changed = true;
-  }
-  if (changed)
     _lastTimeInfo = _currentTimeInfo;
-  if (changed)
     updateDigits();
+  }
   return changed;
 }
 void myTime::updateDigits() {

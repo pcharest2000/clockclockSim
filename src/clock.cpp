@@ -1,9 +1,11 @@
 #include "clock.h"
 
+#ifdef SIM
 uint32_t micros() {
   return std::chrono::high_resolution_clock::now().time_since_epoch().count() /
          1000;
 }
+#endif
 
 Clock::Clock(int x, int y, int width, Canvas *cv) {
   _center.x = x;
@@ -95,7 +97,8 @@ void Clock::setTarget(int hourT, int minT) {
     _minDir = -1;
   else if (minT == _minAngle)
     _minDir = 0;
-
+  _minStartDelay=0;
+  _hourStartDelay=0;
   _hourTarget = hourT;
   _minTarget = minT;
 }
