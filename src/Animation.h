@@ -6,5 +6,8 @@
 void aniSquare(ClockMatrix *clock);
 void aniDiamond(ClockMatrix *clock);
 void aniWave(ClockMatrix *clock,myTime *timeObj);
-void setSquare(ClockMatrix *clocks, int32_t turns);
+void setSquare(ClockMatrix *clock, int32_t turns);
+void drawSquares(ClockMatrix *clock);
+void drawDiamond(ClockMatrix *clock);
+void drawStairs(ClockMatrix *clock);
 #endif //ANIMATIONS_S
