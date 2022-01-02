@@ -102,6 +102,29 @@ void Clock::setTarget(int hourT, int minT) {
   _hourTarget = hourT;
   _minTarget = minT;
 }
+
+void Clock::addToTarget(int angleH, int angleM){
+
+
+  _hourTarget += angleH;
+  _minTarget += angleM;
+
+  if (_hourTarget < _hourAngle)
+    _hourDir = -1;
+  else if (_hourTarget > _hourAngle)
+    _hourDir = 1;
+  else if (_hourTarget == _hourAngle)
+    _hourDir = 0;
+
+  if (_minTarget < _minAngle)
+    _minDir = -1;
+  else if (_minTarget > _minAngle)
+    _minDir = 1;
+  else if (_minTarget == _minAngle)
+    _minDir = 0;
+}
+
+
 void Clock::setTargetDelay(uint32_t micro, int hourT, int minT,
                            uint32_t hourDmillis, uint32_t minDmillis) {
   setTarget(hourT, minT);

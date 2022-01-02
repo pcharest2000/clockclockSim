@@ -32,6 +32,8 @@ public:
   void setTarget(uint32_t i, uint32_t j, int hourA, int minA);
   void setTargetDelay(uint32_t micro, uint32_t i, uint32_t j, int hourA,
                       int minA, uint32_t hourDmillis, uint32_t minDmillis);
+  void addTarget(uint32_t i, uint32_t j, int hourT, int minT);
+  void addTargetAll(int hourT, int minT);
   void setTargetAll(int hourT, int minT);
   void setSpeed(uint32_t i, uint32_t j, float hourRPM, float minRPM);
   void setSpeedAll(float hourRPM, float minRPM);

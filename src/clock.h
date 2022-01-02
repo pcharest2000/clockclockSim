@@ -38,6 +38,7 @@ public:
   void setSpeed(float hourRPM, float minRPM);
   void setAngle(int hour, int min);
   void setTarget(int hourT, int minT);
+  void addToTarget(int angleH,int angleM);
   void setTargetDelay(uint32_t micro,int  hourT, int minT, uint32_t hourD, uint32_t minD);
   void run(uint32_t micro);
   bool clockDone();

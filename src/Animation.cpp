@@ -192,9 +192,9 @@ void drawStairs(ClockMatrix *clock){
     for (uint8_t i = 0; i < clock->getRows(); i++) {
       if (j & 1) {
         if (i & 1) {
-          clock->setTarget(i, j, DEG180, -DEG90);
-        } else {
           clock->setTarget(i, j, DEG0, DEG90);
+        } else {
+          clock->setTarget(i, j, DEG180, -DEG90);
         }
       } else {
         if (i & 1) {
@@ -207,4 +207,33 @@ void drawStairs(ClockMatrix *clock){
   }
   clock->normalizeSpeed(20);
   clock->runToDestination();
+  clock->addTargetAll(DEG90, DEG90);
+  clock->normalizeSpeed(20);
+  clock->runDelay(2000);
+  clock->runToDestination();
+  clock->addTargetAll(-DEG90, -DEG90);
+  clock->normalizeSpeed(20);
+  clock->runDelay(2000);
+  clock->runToDestination();
+}
+
+void drawSwans(ClockMatrix *clock) {
+
+  clock->normalizeAngles();
+  uint8_t hei = clock->getRows() - 1;
+  uint8_t wei = clock->getCols() - 1;
+  int8_t iangle=0;
+  int8_t jangle=0;
+  for (uint8_t j = 0; j < clock->getCols()  ; j++) {
+    for (uint8_t i = 0; i < clock->getRows() ; i++) {
+        clock->setTarget(i, j, DEG45+iangle, -DEG45-iangle);
+    }
+        iangle-=4;
+  }
+  clock->normalizeSpeed(20);
+  clock->runToDestination();
+  clock->setSpeedAll(10, 10);
+  clock->addTargetAll(3*STEPSPER360, -3*STEPSPER360);
+  clock->runToDestination();
+  clock->normalizeAngles();
 }

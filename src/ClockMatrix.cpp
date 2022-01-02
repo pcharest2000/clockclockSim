@@ -105,6 +105,18 @@ void ClockMatrix::setTargetAll(int hourT, int minT) {
     }
   }
 }
+void ClockMatrix::addTarget(uint32_t i, uint32_t j, int hourT, int minT){
+  if (i >= _rows || j >= _cols)
+    return;
+      _matrix[i][j].addToTarget(hourT, minT);
+}
+void ClockMatrix::addTargetAll(int hourT, int minT) {
+  for (uint32_t i = 0; i < _rows; i++) {
+    for (uint32_t j = 0; j < _cols; j++) {
+      _matrix[i][j].addToTarget(hourT, minT);
+    }
+  }
+}
 void ClockMatrix::setTargetBox(uint32_t i, uint32_t j, uint32_t heigth,
                                uint32_t width, int hourA, int minA) {
   for (int i1 = i; i1 < i + heigth; i1++) {

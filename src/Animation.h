@@ -10,4 +10,5 @@ void setSquare(ClockMatrix *clock, int32_t turns);
 void drawSquares(ClockMatrix *clock);
 void drawDiamond(ClockMatrix *clock);
 void drawStairs(ClockMatrix *clock);
+void drawSwans(ClockMatrix *clock);
 #endif //ANIMATIONS_S

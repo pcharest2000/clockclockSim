@@ -20,13 +20,13 @@ myTime myTi;
 int updateT(void *data) {
   uint32_t time = micros();
   while (1) {
-    drawStairs(&clocks);
+    //drawStairs(&clocks);
     // clocks.runDelay(3000);
-    // drawDiamond(&clocks);
+     //drawSwans(&clocks);
     // drawSquares(&clocks);
      //aniSquare(&clocks);
     // aniDiamond(&clocks);
-    //aniWave(&clocks, &myTi);
+    aniWave(&clocks, &myTi);
   }
   return 0;
 }
