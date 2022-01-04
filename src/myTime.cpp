@@ -70,7 +70,7 @@ void myTime::printInfo() {
 #endif
 }
 
-bool myTime::getTime() {
+bool myTime::getTimeChanged() {
   bool changed = false;
 
 #ifndef SIM
@@ -80,6 +80,10 @@ bool myTime::getTime() {
   _currentTimeInfo = *localtime(&t2);
 #endif
 
+  // if (_currentTimeInfo.tm_sec != _lastTimeInfo.tm_sec) {
+  //   whatChanged = whatChanged | SEC_DIG;
+  // } else
+  //   return whatChanged;
   if (_currentTimeInfo.tm_min != _lastTimeInfo.tm_min) {
     changed = true;
     _lastTimeInfo = _currentTimeInfo;
@@ -93,4 +97,6 @@ void myTime::updateDigits() {
   hourTenth = (_currentTimeInfo.tm_hour / 10);
   minDigit = (_currentTimeInfo.tm_min % 10);
   minTenth = (_currentTimeInfo.tm_min / 10);
+  secDigit = (_currentTimeInfo.tm_sec % 10);
+  secTenth = (_currentTimeInfo.tm_sec / 10);
 }

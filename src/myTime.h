@@ -26,7 +26,7 @@ public:
   void updateNptTime();
   void printInfo();
   void checkNptUpdatetime();
-  bool getTime();
+  bool getTimeChanged();
   void updateDigits();
   uint8_t prevSeconds;
   uint8_t currentSeconds;
@@ -38,7 +38,8 @@ public:
   uint8_t hourTenth;
   uint8_t minDigit;
   uint8_t minTenth;
-
+  uint8_t secDigit;
+  uint8_t secTenth;
 private:
   const char *ssid = "BELL963";
   const char *password = "393CC366";

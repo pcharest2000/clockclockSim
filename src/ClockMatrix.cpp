@@ -165,13 +165,13 @@ void ClockMatrix::printClock(myTime *timeObj) {
   printDigit(11, 2, timeObj->minDigit);
 }
 void ClockMatrix::printClockCheck(myTime *timeObj) {
-  bool changed = timeObj->getTime();
+  bool changed = timeObj->getTimeChanged();
   if (changed) {
     printClock(timeObj);
   }
 }
 void ClockMatrix::printClockNormalized(myTime *timeObj, float rpm) {
-  timeObj->getTime();
+  timeObj->getTimeChanged();
   normalizeAnglesBox(2, 8, 6, 6);
   normalizeAnglesBox(2, 1, 6, 6);
   printClock(timeObj);
@@ -180,7 +180,7 @@ void ClockMatrix::printClockNormalized(myTime *timeObj, float rpm) {
 }
 
 void ClockMatrix::printClockNormalizedChecked(myTime *timeObj, float rpm) {
-  bool changed = timeObj->getTime();
+  bool changed = timeObj->getTimeChanged();
   if (changed) {
     normalizeAnglesBox(2, 8, 6, 6);
     normalizeAnglesBox(2, 1, 6, 6);
