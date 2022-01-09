@@ -91,7 +91,31 @@ bool myTime::getTimeChanged() {
   }
   return changed;
 }
+void myTime::getTime() {
+  bool changed = false;
+
+#ifndef SIM
+  getLocalTime(&_currentTimeInfo);
+#else
+  time_t t2 = time(NULL);
+  _currentTimeInfo = *localtime(&t2);
+#endif
+
+  // if (_currentTimeInfo.tm_sec != _lastTimeInfo.tm_sec) {
+  //   whatChanged = whatChanged | SEC_DIG;
+  // } else
+  //   return whatChanged;
+    _lastTimeInfo = _currentTimeInfo;
+    updateDigits();
+  }
 void myTime::updateDigits() {
+
+  prevhourDigit = hourDigit;
+  prevhourTenth = hourTenth;
+  prevminDigit = minDigit;
+  prevminTenth = minTenth;
+  prevsecDigit = secDigit;
+  prevsecTenth = secTenth;
 
   hourDigit = (_currentTimeInfo.tm_hour % 10);
   hourTenth = (_currentTimeInfo.tm_hour / 10);

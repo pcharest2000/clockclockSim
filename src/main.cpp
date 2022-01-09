@@ -9,10 +9,9 @@
 #include "ClockMatrix.h"
 #include "myTime.h"
 #include <cstdint>
-#include "dali_font_C3.h"
 #include "dali_digit.h"
-SDL_Thread *updateThread = NULL;
 #ifdef SIM
+SDL_Thread *updateThread = NULL;
 Canvas cv;
 #endif
 ClockMatrix clocks;
@@ -32,7 +31,7 @@ int updateT(void *data) {
 void setup() {
   clocks.begin(&cv);
   clocks.setSpeedAll(10, 10);
-  dalDig.begin(&cv);
+  dalDig.begin(&cv,&myTi);
   updateThread = SDL_CreateThread(updateT, "updateT", (void *)NULL);
 }
 int frames = 0;
@@ -42,12 +41,10 @@ int main() {
   while (1) {
     cv.clear();
     cv.draw(); //Sets color to white
-    clocks.draw();
+    //clocks.draw();
     //printf("Blend %d\n\r",blend);
-    dalDig.draw(6,300,0);
-    dalDig.draw(5,200,0);
-    dalDig.draw(4,100,0);
-    dalDig.draw(3,0,0);
+myTi.getTime();
+    dalDig.drawClock();
     cv.swapBuffers();
     SDL_Delay(1);
     blend++;

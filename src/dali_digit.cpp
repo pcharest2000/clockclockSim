@@ -1,26 +1,28 @@
 #include "dali_digit.h"
 
- const  dali_digit_t *digits[] = {
-    &DIGIT_INFO(zero),
-    &DIGIT_INFO(one),
-    &DIGIT_INFO(two),
-    &DIGIT_INFO(three),
-    &DIGIT_INFO(four),
-    &DIGIT_INFO(five),
-    &DIGIT_INFO(six),
-    &DIGIT_INFO(seven),
-    &DIGIT_INFO(eight),
-    &DIGIT_INFO(nine),
-    &DIGIT_INFO(colon),
-    &DIGIT_INFO(slash)
-  };
+const dali_digit_t *digits[] = {
+    &DIGIT_INFO(zero),  &DIGIT_INFO(one),   &DIGIT_INFO(two),
+    &DIGIT_INFO(three), &DIGIT_INFO(four),  &DIGIT_INFO(five),
+    &DIGIT_INFO(six),   &DIGIT_INFO(seven), &DIGIT_INFO(eight),
+    &DIGIT_INFO(nine),  &DIGIT_INFO(colon), &DIGIT_INFO(slash)};
 DaliDigit::DaliDigit() {}
 DaliDigit::DaliDigit(Canvas *cv) { _cv = cv; }
-void DaliDigit::begin(Canvas *cv) { _cv = cv; }
+void DaliDigit::begin(Canvas *cv, myTime *tm) {
+  _tm = tm;
+  _cv = cv;
+  _digitWidth = digits[0]->width;
+  _digitHeigth = digits[0]->height;
+  _colwidth = digits[10]->width;
+  _xclockoffset = (_cv->getWidth() - 6 * _digitWidth - 2 * _colwidth) / 2;
+  _yclockoffset = (_cv->getHeight() - _digitHeigth) / 2;
+  printf("Col width %d",_colwidth);
+  printf("yclock %d",_yclockoffset);
+  fflush(stdout);
+}
 
-void DaliDigit::draw(uint8_t num,uint32_t ix, uint32_t jx) {
-    if(num>9)
-        return;
+void DaliDigit::drawDigit(uint8_t num, int ix, int jx) {
+  if (num > 12)
+    return;
   uint32_t x = 0;
   uint32_t x2 = 0;
   uint32_t width1 = 0;
@@ -31,11 +33,50 @@ void DaliDigit::draw(uint8_t num,uint32_t ix, uint32_t jx) {
     width1 = digits[num]->packed_rle[1 + j * 4];
     x2 = digits[num]->packed_rle[2 + j * 4] + x + width1;
     width2 = digits[num]->packed_rle[3 + j * 4];
-    _cv->drawLine(x+ix, j, x+ix + width1, j);
+    _cv->drawLine(x + ix, j + jx, x + ix + width1, j + jx);
     if (width2 != 0) {
-      _cv->drawLine(x2+ix, j, x2+ix + width2, j);
+      _cv->drawLine(x2 + ix, j + jx, x2 + ix + width2, j + jx);
     }
   }
+}
+void DaliDigit::draw(uint8_t num, uint8_t num2, uint32_t ix, uint32_t jx,
+                     uint8_t blend) {
+  if (num > 9)
+    return;
+  uint32_t x = 0;
+  uint32_t x2 = 0;
+  uint32_t width1 = 0;
+  uint32_t width2 = 0;
+
+  for (uint32_t j = 0; j < 131; j++) {
+    x = digits[num]->packed_rle[0 + j * 4];
+    width1 = digits[num]->packed_rle[1 + j * 4];
+    x2 = digits[num]->packed_rle[2 + j * 4] + x + width1;
+    width2 = digits[num]->packed_rle[3 + j * 4];
+    _cv->drawLine(x + ix, j, x + ix + width1, j);
+    if (width2 != 0) {
+      _cv->drawLine(x2 + ix, j, x2 + ix + width2, j);
+    }
+  }
+}
+void DaliDigit::drawClock() {
+
+  uint32_t xpos = _xclockoffset;
+  drawDigit(_tm->hourTenth, xpos, _yclockoffset);
+  xpos += _digitWidth;
+  drawDigit(_tm->hourDigit, xpos, _yclockoffset);
+  xpos += _digitWidth;
+  drawDigit(10, xpos, _yclockoffset);
+  xpos += _colwidth;
+  drawDigit(_tm->minTenth, xpos, _yclockoffset);
+  xpos += _digitWidth;
+  drawDigit(_tm->minDigit, xpos, _yclockoffset);
+  xpos += _digitWidth;
+  drawDigit(10, xpos, _yclockoffset);
+  xpos += _colwidth;
+  drawDigit(_tm->secTenth, xpos, _yclockoffset);
+  xpos += _digitWidth;
+  drawDigit(_tm->secDigit, xpos, _yclockoffset);
 }
 void DaliDigit::draw() {
   uint32_t iIndex = 0;
@@ -112,5 +153,5 @@ void DaliDigit::blend_rle(uint8_t start[4], uint8_t final[], uint8_t blend) {
   for (uint8_t i = 0; i < 4; i++) {
     final[i] = ((256 - blend) * start[i] + blend * final[i]) / 256;
   }
-  //segment_endpoints_to_rle(final);
+  // segment_endpoints_to_rle(final);
 }
