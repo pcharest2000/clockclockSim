@@ -40,13 +40,14 @@ public:
   void draw();
   void draw(uint8_t blend);
   void drawDigit(uint8_t num, int ix, int jx);
+void drawDigitBlend(uint8_t num,uint8_t numto , int ix, int jx,uint8_t blend);
   void draw(uint8_t num, uint8_t num2, uint32_t ix, uint32_t jx, uint8_t blend);
   void load_digit(uint32_t addr, const dali_digit_t &d1, const dali_digit_t &d2,
                   uint8_t blend);
   void load_digit(uint32_t addr, uint8_t d1, uint8_t d2, uint8_t blend);
   void load_digit(uint32_t addr, float digit, uint8_t wrap = 9);
   void load_colon(uint32_t addr);
-
+ void drawClockBlend();
   void drawClock();
 private:
   Canvas *_cv;
